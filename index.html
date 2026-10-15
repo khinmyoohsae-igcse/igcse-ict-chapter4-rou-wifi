@@ -420,7 +420,7 @@
                     { text: "2.4 GHz and 5 GHz frequency bands", isCorrect: true, rationale: "Wi-Fi routers broadcast data over 2.4 GHz (longer range, slower speed) and 5 GHz (shorter range, faster speed) bands." },
                     { text: "AM and FM radio broadcast frequencies (88–108 MHz)", isCorrect: false, rationale: "These are commercial radio broadcast bands, not Wi-Fi." },
                     { text: "Visible red and blue laser light spectra", isCorrect: false, rationale: "This describes optical media and fibre optics." },
-                    { text: "Audio speaker sound waves (20 Hz–20 kHz)", isCorrect: true.split()[0] === 'false' && true, rationale: "Wi-Fi uses electromagnetic radio waves, not sound waves." }
+                    { text: "Audio speaker sound waves (20 Hz–20 kHz)", isCorrect: false, rationale: "Wi-Fi uses electromagnetic radio waves, not sound waves." }
                 ]
             },
             {
@@ -457,6 +457,19 @@
         const resultsContainer = document.getElementById("results-container");
         const finalScore = document.getElementById("final-score");
 
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Shuffle questions order on load
+        shuffleArray(questions);
+
         function loadQuestion() {
             answered = false;
             feedbackBox.classList.add("hidden");
@@ -468,7 +481,8 @@
             questionBox.textContent = q.question;
 
             // Shuffle options array randomly so correct answer is not always first
-            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+            let shuffledOptions = [...q.options];
+            shuffleArray(shuffledOptions);
 
             optionsContainer.innerHTML = "";
             shuffledOptions.forEach((opt) => {
@@ -500,10 +514,11 @@
                 score++;
                 scoreDisplay.textContent = `Score: ${score}`;
                 feedbackBox.className = "feedback-box correct-feedback";
-                feedbackBox.innerHTML = `<strong>Correct!</strong> ${selectedOpt.rationale}`;
+                feedbackBox.innerHTML = `<strong>Correct! 🎉</strong> ${selectedOpt.rationale}`;
             } else {
                 feedbackBox.className = "feedback-box incorrect-feedback";
-                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}`;
+                const correctOpt = questions[currentQuestionIndex].options.find(o => o.isCorrect);
+                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}<br><br><em>Correct answer:</em> ${correctOpt.text}`;
             }
 
             if (currentQuestionIndex < questions.length - 1) {
@@ -528,6 +543,7 @@
         function restartQuiz() {
             currentQuestionIndex = 0;
             score = 0;
+            shuffleArray(questions);
             resultsContainer.classList.add("hidden");
             quizContainer.classList.remove("hidden");
             loadQuestion();
