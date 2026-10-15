@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGCSE ICT - Routers, Wi-Fi & Bluetooth Quiz (20 MCQs)</title>
+    <style>
+        :root {
+            --bg-main: #090d16;
+            --bg-card: #131d31;
+            --border-color: #223354;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            color: var(--accent);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-status {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .score-pill {
+            background-color: #0c4a6e;
+            color: #7dd3fc;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #0284c7;
+        }
+
+        .card {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background-color: #1e293b;
+            color: var(--text-main);
+            padding: 1rem 1.25rem;
+            border-radius: 0.85rem;
+            border: 1px solid #334155;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #283548;
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #064e3b !important;
+            border-color: #059669 !important;
+            color: #ecfdf5 !important;
+        }
+
+        .option-btn.incorrect {
+            background-color: #7f1d1d !important;
+            border-color: #dc2626 !important;
+            color: #fee2e2 !important;
+        }
+
+        .feedback-box {
+            padding: 1.15rem;
+            border-radius: 0.85rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-box.correct-feedback {
+            background-color: #022c22;
+            border: 1px solid #047857;
+            color: #a7f3d0;
+        }
+
+        .feedback-box.incorrect-feedback {
+            background-color: #450a0a;
+            border: 1px solid #b91c1c;
+            color: #fecdd3;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.85rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .results-card {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .results-card h2 {
+            font-size: 2.25rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .results-card p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IGCSE ICT Practice Quiz</h1>
+        <p>Topics 4.1.2 Routers, 4.1.3 Wi-Fi and Bluetooth</p>
+    </header>
+
+    <main>
+        <div class="quiz-status">
+            <span id="question-counter">Question 1 of 20</span>
+            <span id="score-display" class="score-pill">Score: 0</span>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="card">
+            <div id="question-box" class="question-text">
+                Loading question...
+            </div>
+
+            <div id="options-container" class="options-list">
+                <!-- Options populated dynamically -->
+            </div>
+
+            <div id="feedback-box" class="feedback-box hidden">
+                <!-- Feedback populated dynamically -->
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button id="next-btn" onclick="nextQuestion()" class="btn-primary hidden">Next Question</button>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="card results-card hidden">
+            <h2>Quiz Completed! 🎉</h2>
+            <p id="final-score">You scored X out of 20</p>
+            <button onclick="restartQuiz()" class="btn-primary">Restart Quiz</button>
+        </div>
+    </main>
+
+    <footer>
+        IGCSE ICT Revision &bull; Routers, Wi-Fi & Bluetooth
+    </footer>
+
+    <script>
+        const questions = [
+            // Routers Questions (1 to 10)
+            {
+                question: "What is the primary function of a router in computer networking?",
+                options: [
+                    { text: "To forward data packets between different computer networks (such as connecting a home LAN to the Internet WAN)", isCorrect: true, rationale: "Routers inspect packet destination IP addresses and direct data traffic between distinct networks." },
+                    { text: "To print permanent paper documents using liquid ink", isCorrect: false, rationale: "Printing is handled by printers." },
+                    { text: "To store long-term backup files on magnetic tape drives", isCorrect: false, rationale: "This describes magnetic tape archiving." },
+                    { text: "To project video presentations onto classroom walls", isCorrect: false, rationale: "This describes multimedia projectors." }
+                ]
+            },
+            {
+                question: "How does a router determine the best path to send data packets across a network?",
+                options: [
+                    { text: "By examining the destination IP address in the packet header and consulting its internal routing table", isCorrect: true, rationale: "Routers read IP headers and use routing tables to choose the most efficient path for data forwarding." },
+                    { text: "By checking the physical weight of the Ethernet cable in grams", isCorrect: false, rationale: "Cable weight is irrelevant to routing." },
+                    { text: "By measuring room air temperature using thermal sensors", isCorrect: false, rationale: "This is unrelated." },
+                    { text: "By scanning barcodes printed on packet envelopes", isCorrect: false, rationale: "Packets are digital data units, not paper mail." }
+                ]
+            },
+            {
+                question: "What is the difference between how a switch and a router handle data traffic on a network?",
+                options: [
+                    { text: "A switch connects devices within the same LAN using MAC addresses, whereas a router connects different networks together using IP addresses", isCorrect: true, rationale: "Switches manage internal LAN traffic, while routers bridge separate networks (like LAN to WAN)." },
+                    { text: "A switch operates underwater, while a router operates in space", isCorrect: false, rationale: "This is incorrect." },
+                    { text: "A switch is a storage device, while a router is an input scanner", isCorrect: false, rationale: "Both are networking hardware devices." },
+                    { text: "There is no functional difference between a switch and a router", isCorrect: false, rationale: "They serve distinct network layers and functions." }
+                ]
+            },
+            {
+                question: "What is an IP (Internet Protocol) address used for by a router?",
+                options: [
+                    { text: "To uniquely identify devices across a network and ensure data packets reach the correct destination IP address", isCorrect: true, rationale: "IP addresses provide logical network routing identifiers used by routers to direct traffic." },
+                    { text: "To burn microscopic pits onto optical Blu-ray discs", isCorrect: false, rationale: "This describes optical media." },
+                    { text: "To print toner powder onto paper sheets", isCorrect: false, rationale: "This describes laser printers." },
+                    { text: "To measure blood pressure in medical clinics", isCorrect: false, rationale: "This is unrelated." }
+                ]
+            },
+            {
+                question: "What is a 'routing table' stored inside a router?",
+                options: [
+                    { text: "A database of network pathways and distances used by the router to determine the most efficient route for forwarding data packets", isCorrect: true, rationale: "Routing tables maintain maps of network routes to guide packet forwarding." },
+                    { text: "A physical wooden table that supports the router hardware", isCorrect: false, rationale: "A routing table is software data, not furniture." },
+                    { text: "A spreadsheet of employee salaries", isCorrect: false, rationale: "This is payroll accounting." },
+                    { text: "A list of wireless Bluetooth passwords", isCorrect: false, rationale: "This is incorrect." }
+                ]
+            },
+            {
+                question: "How do home broadband routers typically combine multiple networking functions into a single box?",
+                options: [
+                    { text: "They combine a router, a network switch, a wireless access point (WAP), and a modem", isCorrect: true, rationale: "Consumer routers integrate modem, routing, switching, and Wi-Fi access point capabilities." },
+                    { text: "They combine a hard disk drive, a keyboard, and a monitor", isCorrect: false, rationale: "These are computer system components." },
+                    { text: "They combine an OMR scanner, an inkjet printer, and a plotter", isCorrect: false, rationale: "These are input/output devices." },
+                    { text: "They combine a microphone, a speaker, and a webcam", isCorrect: false, rationale: "These are audio/video peripherals." }
+                ]
+            },
+            {
+                question: "What role does NAT (Network Address Translation) play in modern routers?",
+                options: [
+                    { text: "It translates private internal IP addresses (used on a home LAN) into a single public IP address (used on the Internet WAN)", isCorrect: true, rationale: "NAT allows multiple devices on a local network to share one public internet IP address." },
+                    { text: "It translates English text into French and German", isCorrect: false, rationale: "This is language translation software." },
+                    { text: "It converts digital audio files into speaker sound waves", isCorrect: false, rationale: "This describes a DAC." },
+                    { text: "It encrypts optical disc surfaces", isCorrect: false, rationale: "This is unrelated." }
+                ]
+            },
+            {
+                question: "What is packet loss in router data transmission?",
+                options: [
+                    { text: "When one or more data packets fail to reach their destination network address due to network congestion or interference", isCorrect: true, rationale: "Packet loss occurs when transmitted data packets drop out before reaching the recipient, requiring retransmission." },
+                    { text: "When a printer runs out of paper sheets", isCorrect: false, rationale: "This is a printer paper jam." },
+                    { text: "When a hard disk drive suffers a mechanical head crash", isCorrect: false, rationale: "This is disk storage failure." },
+                    { text: "When a battery drains completely on a smartphone", isCorrect: false, rationale: "This is battery depletion." }
+                ]
+            },
+            {
+                question: "Why do routers inspect the header of a data packet rather than the payload data inside?",
+                options: [
+                    { text: "The header contains the necessary routing metadata (source and destination IP addresses) needed to forward the packet efficiently", isCorrect: true, rationale: "Routers only need header addressing info to forward packets, leaving the payload intact and private." },
+                    { text: "Because payload data is too heavy to fit inside router memory", isCorrect: false, rationale: "Packet payload size has nothing to do with weight." },
+                    { text: "Because headers contain the Wi-Fi password", isCorrect: false, rationale: "Headers contain routing addresses." },
+                    { text: "Because routers cannot read digital binary files", isCorrect: false, rationale: "Routers process binary packet data constantly." }
+                ]
+            },
+            {
+                question: "Which hardware category does a network router belong to?",
+                options: [
+                    { text: "Network infrastructure and communication devices", isCorrect: true, rationale: "Routers are core networking hardware used to build and connect computer networks." },
+                    { text: "Manual data entry input devices", isCorrect: false, rationale: "Routers direct network data; they are not input keyboards." },
+                    { text: "Non-volatile backing storage media", isCorrect: false, rationale: "Routers do not serve as file storage drives." },
+                    { text: "Soft-copy visual output displays", isCorrect: false, rationale: "This describes monitors." }
+                ]
+            },
+
+            // Wi-Fi and Bluetooth Questions (11 to 20)
+            {
+                question: "What is Wi-Fi in computer networking?",
+                options: [
+                    { text: "A wireless technology that uses radio frequency electromagnetic waves to connect computers and devices to a Local Area Network (LAN) and the Internet", isCorrect: true, rationale: "Wi-Fi provides high-speed wireless network connectivity using radio waves." },
+                    { text: "A wired copper Ethernet cable standard", isCorrect: false, rationale: "Wi-Fi is strictly wireless." },
+                    { text: "An optical disc laser reading format", isCorrect: false, rationale: "This describes optical media." },
+                    { text: "A magnetic tape archiving format", isCorrect: false, rationale: "This describes magnetic tape." }
+                ]
+            },
+            {
+                question: "What is Bluetooth in wireless communication?",
+                options: [
+                    { text: "A short-range wireless technology used to connect peripheral devices (like headphones, mice, and keyboards) to computers and smartphones", isCorrect: true, rationale: "Bluetooth creates secure Wireless Personal Area Networks (WPAN) over short distances (typically up to 10 meters)." },
+                    { text: "A high-speed global WAN network connecting international continents", isCorrect: false, rationale: "Bluetooth is strictly short-range, not a global WAN." },
+                    { text: "An optical scanner used for reading barcodes", isCorrect: false, rationale: "This is a barcode scanner." },
+                    { text: "A high-voltage electrical power transmission grid", isCorrect: false, rationale: "This is electrical engineering." }
+                ]
+            },
+            {
+                question: "What are the main differences between Wi-Fi and Bluetooth in terms of range and data transfer speed?",
+                options: [
+                    { text: "Wi-Fi offers longer range and much higher data transfer speeds (suitable for internet access), whereas Bluetooth has a shorter range and lower data speeds (suitable for peripherals)", isCorrect: true, rationale: "Wi-Fi covers rooms/buildings with high bandwidth; Bluetooth covers short personal distances with lower power and speed." },
+                    { text: "Wi-Fi is for computer mice, while Bluetooth is for global satellite internet", isCorrect: false, rationale: "This is completely reversed." },
+                    { text: "Wi-Fi requires physical copper cables, while Bluetooth uses fibre optics", isCorrect: false, rationale: "Both are wireless technologies." },
+                    { text: "There is no difference between Wi-Fi and Bluetooth", isCorrect: false, rationale: "They serve different wireless purposes and ranges." }
+                ]
+            },
+            {
+                question: "What type of wireless communication topology does Bluetooth primarily form?",
+                options: [
+                    { text: "A Wireless Personal Area Network (WPAN) or piconet connecting devices directly to each other", isCorrect: true, rationale: "Bluetooth creates small personal networks (piconets) linking devices like smartphones, smartwatches, and headsets." },
+                    { text: "A global Wide Area Network (WAN) spanning multiple continents", isCorrect: false, rationale: "Bluetooth range is limited to personal space." },
+                    { text: "An enterprise LAN connecting 5,000 office workstations", isCorrect: false, rationale: "Office LANs use Ethernet and Wi-Fi." },
+                    { text: "A magnetic tape backup array", isCorrect: false, rationale: "This is storage." }
+                ]
+            },
+            {
+                question: "What wireless security protocols are commonly used to protect Wi-Fi networks from unauthorized access?",
+                options: [
+                    { text: "WPA2 and WPA3 (Wi-Fi Protected Access)", isCorrect: true, rationale: "WPA2 and WPA3 encrypt wireless data transmissions to prevent unauthorized eavesdropping and hacking." },
+                    { text: "FAT32 and NTFS file system formats", isCorrect: false, rationale: "These are disk storage file systems, not wireless security protocols." },
+                    { text: "ASCII and Unicode character encodings", isCorrect: false, rationale: "These are text character sets." },
+                    { text: "HB pencil shading tracks", isCorrect: false, rationale: "This is OMR exam testing." }
+                ]
+            },
+            {
+                question: "What is a major advantage of wireless networks (Wi-Fi) over wired Ethernet networks?",
+                options: [
+                    { text: "Mobility and flexibility—devices can move freely around the coverage area without being tethered by physical cables", isCorrect: true, rationale: "Wi-Fi allows laptops and mobile devices to connect anywhere within range without plugging in cables." },
+                    { text: "Absolute immunity to walls, interference, and hacking", isCorrect: false, rationale: "Wireless signals can be blocked by solid walls, suffer interference, and require encryption security." },
+                    { text: "Faster data transfer speeds than a direct fibre optic cable", isCorrect: false, rationale: "Wired fibre optic cables generally offer faster and more stable speeds than wireless Wi-Fi." },
+                    { text: "Zero power consumption by devices", isCorrect: false, rationale: "Wireless transceivers consume battery power." }
+                ]
+            },
+            {
+                question: "What is a major disadvantage of wireless networks compared to wired networks?",
+                options: [
+                    { text: "Higher vulnerability to security eavesdropping, signal interference from physical obstacles (walls), and slower or less stable connection speeds", isCorrect: true, rationale: "Wireless signals travel through open air, making them susceptible to interference and security interception." },
+                    { text: "Cables tripping people up in office hallways", isCorrect: false, rationale: "Wired networks have cables; wireless networks do not." },
+                    { text: "Impossibility of connecting smartphones or laptops", isCorrect: false, rationale: "Smartphones connect easily to Wi-Fi." },
+                    { text: "Requirement for massive diesel generators", isCorrect: false, rationale: "This is false." }
+                ]
+            },
+            {
+                question: "What radio frequency bands do standard Wi-Fi routers operate on?",
+                options: [
+                    { text: "2.4 GHz and 5 GHz frequency bands", isCorrect: true, rationale: "Wi-Fi routers broadcast data over 2.4 GHz (longer range, slower speed) and 5 GHz (shorter range, faster speed) bands." },
+                    { text: "AM and FM radio broadcast frequencies (88–108 MHz)", isCorrect: false, rationale: "These are commercial radio broadcast bands, not Wi-Fi." },
+                    { text: "Visible red and blue laser light spectra", isCorrect: false, rationale: "This describes optical media and fibre optics." },
+                    { text: "Audio speaker sound waves (20 Hz–20 kHz)", isCorrect: true.split()[0] === 'false' && true, rationale: "Wi-Fi uses electromagnetic radio waves, not sound waves." }
+                ]
+            },
+            {
+                question: "What is device pairing in Bluetooth technology?",
+                options: [
+                    { text: "The initial security process where two Bluetooth devices establish a trusted connection by exchanging security keys and confirmation codes", isCorrect: true, rationale: "Pairing links two Bluetooth devices securely so they can communicate exclusively without interference from nearby devices." },
+                    { text: "The physical process of soldering copper wires together inside a circuit board", isCorrect: false, rationale: "Bluetooth pairing is wireless software configuration, not hardware soldering." },
+                    { text: "The formatting of hard disk drive sectors into tracks", isCorrect: false, rationale: "This is disk formatting." },
+                    { text: "The backup of files onto cloud storage", isCorrect: false, rationale: "This is cloud backing up." }
+                ]
+            },
+            {
+                question: "Which of the following best summarizes the complementary roles of Routers, Wi-Fi, and Bluetooth in modern ICT environments?",
+                options: [
+                    { text: "Routers direct data between networks (LAN to WAN), Wi-Fi provides wireless local area network access, and Bluetooth connects short-range personal peripherals", isCorrect: true, rationale: "Each technology serves a distinct role: routers route packets, Wi-Fi delivers wireless LAN access, and Bluetooth links personal devices." },
+                    { text: "All three technologies are identical hardware devices used exclusively for printing paper documents", isCorrect: false, rationale: "They serve completely different networking functions." },
+                    { text: "Routers are storage drives, Wi-Fi is an input keyboard, and Bluetooth is a visual monitor", isCorrect: false, rationale: "This is incorrect." },
+                    { text: "None of these technologies are included in the IGCSE ICT syllabus", isCorrect: false, rationale: "All are core syllabus networking topics." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionCounter = document.getElementById("question-counter");
+        const scoreDisplay = document.getElementById("score-display");
+        const questionBox = document.getElementById("question-box");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const nextBtn = document.getElementById("next-btn");
+        const quizContainer = document.getElementById("quiz-container");
+        const resultsContainer = document.getElementById("results-container");
+        const finalScore = document.getElementById("final-score");
+
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("hidden");
+            nextBtn.classList.add("hidden");
+            
+            const q = questions[currentQuestionIndex];
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            scoreDisplay.textContent = `Score: ${score}`;
+            questionBox.textContent = q.question;
+
+            // Shuffle options array randomly so correct answer is not always first
+            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            optionsContainer.innerHTML = "";
+            shuffledOptions.forEach((opt) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.textContent = opt.text;
+                btn.onclick = () => selectOption(opt, shuffledOptions);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedOpt, shuffledOptions) {
+            if (answered) return;
+            answered = true;
+
+            const allOptionButtons = optionsContainer.children;
+
+            shuffledOptions.forEach((opt, idx) => {
+                allOptionButtons[idx].disabled = true;
+                if (opt.isCorrect) {
+                    allOptionButtons[idx].classList.add("correct");
+                } else if (opt === selectedOpt && !selectedOpt.isCorrect) {
+                    allOptionButtons[idx].classList.add("incorrect");
+                }
+            });
+
+            feedbackBox.classList.remove("hidden");
+            if (selectedOpt.isCorrect) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                feedbackBox.className = "feedback-box correct-feedback";
+                feedbackBox.innerHTML = `<strong>Correct!</strong> ${selectedOpt.rationale}`;
+            } else {
+                feedbackBox.className = "feedback-box incorrect-feedback";
+                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}`;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                nextBtn.textContent = "Next Question";
+            } else {
+                nextBtn.textContent = "View Results";
+            }
+            nextBtn.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.classList.add("hidden");
+                resultsContainer.classList.remove("hidden");
+                finalScore.textContent = `You scored ${score} out of ${questions.length}`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add("hidden");
+            quizContainer.classList.remove("hidden");
+            loadQuestion();
+        }
+
+        // Initialize quiz on load
+        loadQuestion();
+    </script>
+</body>
+</html>
